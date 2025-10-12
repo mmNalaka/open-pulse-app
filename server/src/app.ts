@@ -1,39 +1,32 @@
+/** biome-ignore-all lint/nursery/useConsistentTypeDefinitions: false positive */
 import { Hono, type Schema } from "hono";
-import type { PinoLogger } from "hono-pino";
 import { cors } from "hono/cors";
 import { requestId } from "hono/request-id";
-import { pinoLogger } from 'hono-pino'
-import type { ApiResponse } from "shared/dist";
+import type { PinoLogger } from "hono-pino";
+import { pinoLogger } from "hono-pino";
+import onError from "./middlewares/on-error.mw";
+import healthRouter from "./modules/health/health.routes";
 
 export interface AppBindings {
   Variables: {
     logger: PinoLogger;
   };
-};
-
+}
 /**
  * Create a new app
- * 
+ *
  * @returns {Hono<AppBindings>}
  */
 export function createApp() {
-    const app = new Hono<AppBindings>()    
+  const app = new Hono<AppBindings>()
     .use(requestId())
     .use(cors())
     .use(pinoLogger())
 
-    .get("/", (c) => c.text("Hello World"))
-    .get("/hello", async (c) => {
-      const data: ApiResponse<string> = {
-        message: "Hello BHVR!",
-        success: true,
-        data: "Hello BHVR!",
-      };
+    .route("/health", healthRouter);
 
-	return c.json(data, { status: 200 });
-});
-
-    return app;
+  app.onError(onError);
+  return app;
 }
 
 /**
