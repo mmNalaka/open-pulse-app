@@ -6,6 +6,7 @@ import type { PinoLogger } from "hono-pino";
 import { pinoLogger } from "hono-pino";
 import notFound from "./middlewares/not-found.mw";
 import onError from "./middlewares/on-error.mw";
+import authRouter from "./modules/auth/auth.router";
 import healthRouter from "./modules/health/health.routes";
 
 export interface AppBindings {
@@ -27,7 +28,8 @@ export function createApp() {
     .use(pinoLogger())
 
     // Routes
-    .route("/health", healthRouter);
+    .route("/health", healthRouter)
+    .route("/auth", authRouter);
 
   // Error handlers
   app.notFound(notFound);
