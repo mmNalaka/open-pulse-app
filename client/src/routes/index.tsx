@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { hcWithType } from "server/dist/client";
-import beaver from "@/assets/beaver.svg";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
@@ -36,9 +35,6 @@ function Index() {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-xl flex-col items-center justify-center gap-6">
-      <a href="https://github.com/stevedylandev/bhvr" rel="noopener" target="_blank">
-        <img alt="beaver logo" className="h-16 w-16 cursor-pointer" src={beaver} />
-      </a>
       <h1 className="font-black text-5xl">bhvr</h1>
       <h2 className="font-bold text-2xl">Bun + Hono + Vite + React</h2>
       <p>A typesafe fullstack monorepo</p>
