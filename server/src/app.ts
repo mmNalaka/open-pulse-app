@@ -7,7 +7,7 @@ import { pinoLogger } from "hono-pino";
 import { CorsConfig } from "./config/app.config";
 import notFound from "./middlewares/not-found.mw";
 import onError from "./middlewares/on-error.mw";
-import { auth } from "./modules/auth/better-auth.config";
+import authRouter from "./modules/auth/auth.router";
 import healthRouter from "./modules/health/health.routes";
 
 export interface AppBindings {
@@ -30,8 +30,7 @@ export function createApp() {
 
     // Routes
     .route("/api/health", healthRouter)
-    // Auth routes
-    .on(["POST", "GET"], "/api/auth/*", (c) => auth.handler(c.req.raw));
+    .route("/api/auth", authRouter);
 
   // Error handlers
   app.notFound(notFound);
