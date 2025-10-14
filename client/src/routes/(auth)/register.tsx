@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
-import SignInForm from "@/components/auth/sign-in-form";
+import SignUpForm from "@/components/auth/sign-up-form";
 import { authClient } from "@/lib/auth-client";
 
-export const Route = createFileRoute("/(auth)/login")({
+export const Route = createFileRoute("/(auth)/register")({
   component: RouteComponent,
   validateSearch: (search: Record<string, unknown>) => {
     const redirect = typeof search.redirect === "string" ? search.redirect : undefined;
@@ -58,7 +58,7 @@ function RouteComponent() {
 
     // If user has an active organization, redirect to organization-based routes
     if (activeOrganization?.slug) {
-      return buildOrgRedirect(target, activeOrganization.id);
+      return buildOrgRedirect(target, activeOrganization.slug);
     }
 
     // Fallback to old behavior if no organization
@@ -81,5 +81,5 @@ function RouteComponent() {
     }
   }, [session, isPending, orgPending, navigate, redirectTo]);
 
-  return <SignInForm />;
+  return <SignUpForm />;
 }

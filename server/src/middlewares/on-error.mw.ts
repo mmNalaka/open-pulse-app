@@ -1,8 +1,8 @@
-import { INTERNAL_SERVER_ERROR, OK } from "@shared/http-status-code";
-import { INTERNAL_SERVER_ERROR as INTERNAL_SERVER_ERROR_MESSAGE } from "@shared/http-status-messages";
-import type { ApiErrorResponse } from "@shared/types/response.types";
 import type { ErrorHandler } from "hono";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
+import { INTERNAL_SERVER_ERROR, OK } from "shared/dist/http-status-code";
+import { HttpStatusCodeMessage } from "shared/dist/http-status-messages";
+import type { ApiErrorResponse } from "shared/dist/types/response.types";
 
 const onError: ErrorHandler = (err, c) => {
   const currentStatus = "status" in err ? err.status : c.newResponse(null).status;
@@ -13,7 +13,7 @@ const onError: ErrorHandler = (err, c) => {
   return c.json<ApiErrorResponse>(
     {
       success: false,
-      errorCode: INTERNAL_SERVER_ERROR_MESSAGE,
+      errorCode: HttpStatusCodeMessage.INTERNAL_SERVER_ERROR,
       message: err.message,
       details: env === "production" ? undefined : err.stack,
     },

@@ -1,4 +1,3 @@
-import { API_KEY_RATE_LIMIT_TIME_WINDOW } from "@shared/auth.const";
 import {
   boolean,
   date,
@@ -9,6 +8,7 @@ import {
   timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
+import { API_KEY_RATE_LIMIT_TIME_WINDOW } from "shared/dist/auth.const";
 
 /**
  * Auth Tables for Better Auth

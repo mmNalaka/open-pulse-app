@@ -4,9 +4,10 @@ import { cors } from "hono/cors";
 import { requestId } from "hono/request-id";
 import type { PinoLogger } from "hono-pino";
 import { pinoLogger } from "hono-pino";
+import { CorsConfig } from "./config/app.config";
 import notFound from "./middlewares/not-found.mw";
 import onError from "./middlewares/on-error.mw";
-import authRouter from "./modules/auth/auth.router";
+import { auth } from "./modules/auth/better-auth.config";
 import healthRouter from "./modules/health/health.routes";
 
 export interface AppBindings {
@@ -24,12 +25,13 @@ export function createApp() {
 
     // Middlewares
     .use(requestId())
-    .use(cors())
+    .use(cors(CorsConfig))
     .use(pinoLogger())
 
     // Routes
-    .route("/health", healthRouter)
-    .route("/auth", authRouter);
+    .route("/api/health", healthRouter)
+    // Auth routes
+    .on(["POST", "GET"], "/api/auth/*", (c) => auth.handler(c.req.raw));
 
   // Error handlers
   app.notFound(notFound);
@@ -49,7 +51,7 @@ export function createApp() {
 export function createTestApp<S extends Schema>(router: Hono<AppBindings, S>) {
   return new Hono<AppBindings, S>()
     .use(requestId())
-    .use(cors())
+    .use("/*", cors())
     .use(pinoLogger())
     .route("/", router);
 }

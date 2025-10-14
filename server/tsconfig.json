@@ -16,5 +16,11 @@
     "composite": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
+  "types": [
+    "node",
+    "bun",
+    "./node_modules/@simplewebauthn/server/esm/index.d.ts",
+    "./node_modules/jose/dist/types/index.d.ts"
+  ]
 }

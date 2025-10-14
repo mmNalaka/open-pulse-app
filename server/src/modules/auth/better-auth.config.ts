@@ -1,13 +1,13 @@
 /** biome-ignore-all lint/performance/noNamespaceImport: no treeshaking needed for schema */
 /** biome-ignore-all lint/suspicious/noConsole: needed for invite logging */
 
-import { NEW_USER_TIME_WINDOW } from "@shared/auth.const";
 import { betterAuth, type Session, type User } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { createAuthMiddleware } from "better-auth/api";
 import { apiKey, customSession, jwt, organization } from "better-auth/plugins";
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
+import { NEW_USER_TIME_WINDOW } from "shared/dist/auth.const";
 import { db } from "../../db";
 import * as schema from "../../db/schema";
 
@@ -108,9 +108,8 @@ async function findUSerRoles(useId: string) {
   }
 }
 
-/**
- * Better Auth configuration
- */
+// biome-ignore lint/suspicious/noTsIgnore: false positive
+// @ts-ignore
 export const auth = betterAuth({
   // Database configuration
   database: drizzleAdapter(db, {
