@@ -23,7 +23,7 @@ export default function SignUpForm({
   onSuccess,
 }: SignUpFormProps) {
   const navigate = useNavigate({
-    from: "/",
+    from: "/$org/dashboard",
   });
   const { isPending } = authClient.useSession();
 
@@ -46,7 +46,7 @@ export default function SignUpForm({
               onSuccess?.();
             } else {
               navigate({
-                to: "/",
+                to: "/$org/dashboard",
               });
             }
             toast.success("Sign up successful");

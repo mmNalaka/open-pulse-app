@@ -22,8 +22,8 @@ function extractPathFromUrl(url: string): string {
 }
 
 // Helper function to build organization-based redirect
-function buildOrgRedirect(target: string | undefined, orgSlug: string): string {
-  const defaultPath = `/${orgSlug}/dashboard`;
+function buildOrgRedirect(target: string | undefined, org: string): string {
+  const defaultPath = `/${org}/dashboard`;
 
   if (!target || target.length === 0) {
     return defaultPath;
@@ -32,18 +32,18 @@ function buildOrgRedirect(target: string | undefined, orgSlug: string): string {
   // Handle absolute URLs
   if (target.startsWith("http://") || target.startsWith("https://")) {
     const path = extractPathFromUrl(target);
-    if (path.startsWith(`/${orgSlug}/`)) {
+    if (path.startsWith(`/${org}/`)) {
       return path;
     }
-    return path.length > 0 ? `/${orgSlug}${path}` : defaultPath;
+    return path.length > 0 ? `/${org}${path}` : defaultPath;
   }
 
   // Handle relative paths
   const normalizedTarget = target.startsWith("/") ? target : `/${target}`;
-  if (normalizedTarget.startsWith(`/${orgSlug}/`)) {
+  if (normalizedTarget.startsWith(`/${org}/`)) {
     return normalizedTarget;
   }
-  return `/${orgSlug}${normalizedTarget}`;
+  return `/${org}${normalizedTarget}`;
 }
 
 function RouteComponent() {

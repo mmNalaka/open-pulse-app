@@ -17,7 +17,7 @@ type SignInFormProps = {
 
 export default function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
   const navigate = useNavigate({
-    from: "/",
+    from: "/$org/dashboard",
   });
   const { isPending } = authClient.useSession();
 
@@ -35,7 +35,7 @@ export default function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
         {
           onSuccess: () => {
             navigate({
-              to: "/",
+              to: "/$org/dashboard",
             });
             toast.success("Sign in successful");
           },

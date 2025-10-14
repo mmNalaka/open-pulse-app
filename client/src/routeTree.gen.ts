@@ -9,11 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OrgRouteImport } from './routes/$org'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as authUnauthorizedRouteImport } from './routes/(auth)/unauthorized'
 import { Route as authRegisterRouteImport } from './routes/(auth)/register'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as OrgUsersRouteImport } from './routes/$org/users'
+import { Route as OrgDashboardRouteImport } from './routes/$org/dashboard'
 
+const OrgRoute = OrgRouteImport.update({
+  id: '/$org',
+  path: '/$org',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -34,15 +42,31 @@ const authLoginRoute = authLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrgUsersRoute = OrgUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => OrgRoute,
+} as any)
+const OrgDashboardRoute = OrgDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => OrgRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$org': typeof OrgRouteWithChildren
+  '/$org/dashboard': typeof OrgDashboardRoute
+  '/$org/users': typeof OrgUsersRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/unauthorized': typeof authUnauthorizedRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$org': typeof OrgRouteWithChildren
+  '/$org/dashboard': typeof OrgDashboardRoute
+  '/$org/users': typeof OrgUsersRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/unauthorized': typeof authUnauthorizedRoute
@@ -50,18 +74,38 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$org': typeof OrgRouteWithChildren
+  '/$org/dashboard': typeof OrgDashboardRoute
+  '/$org/users': typeof OrgUsersRoute
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/register': typeof authRegisterRoute
   '/(auth)/unauthorized': typeof authUnauthorizedRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/unauthorized'
+  fullPaths:
+    | '/'
+    | '/$org'
+    | '/$org/dashboard'
+    | '/$org/users'
+    | '/login'
+    | '/register'
+    | '/unauthorized'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/unauthorized'
+  to:
+    | '/'
+    | '/$org'
+    | '/$org/dashboard'
+    | '/$org/users'
+    | '/login'
+    | '/register'
+    | '/unauthorized'
   id:
     | '__root__'
     | '/'
+    | '/$org'
+    | '/$org/dashboard'
+    | '/$org/users'
     | '/(auth)/login'
     | '/(auth)/register'
     | '/(auth)/unauthorized'
@@ -69,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  OrgRoute: typeof OrgRouteWithChildren
   authLoginRoute: typeof authLoginRoute
   authRegisterRoute: typeof authRegisterRoute
   authUnauthorizedRoute: typeof authUnauthorizedRoute
@@ -76,6 +121,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/$org': {
+      id: '/$org'
+      path: '/$org'
+      fullPath: '/$org'
+      preLoaderRoute: typeof OrgRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,11 +156,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$org/users': {
+      id: '/$org/users'
+      path: '/users'
+      fullPath: '/$org/users'
+      preLoaderRoute: typeof OrgUsersRouteImport
+      parentRoute: typeof OrgRoute
+    }
+    '/$org/dashboard': {
+      id: '/$org/dashboard'
+      path: '/dashboard'
+      fullPath: '/$org/dashboard'
+      preLoaderRoute: typeof OrgDashboardRouteImport
+      parentRoute: typeof OrgRoute
+    }
   }
 }
 
+interface OrgRouteChildren {
+  OrgDashboardRoute: typeof OrgDashboardRoute
+  OrgUsersRoute: typeof OrgUsersRoute
+}
+
+const OrgRouteChildren: OrgRouteChildren = {
+  OrgDashboardRoute: OrgDashboardRoute,
+  OrgUsersRoute: OrgUsersRoute,
+}
+
+const OrgRouteWithChildren = OrgRoute._addFileChildren(OrgRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  OrgRoute: OrgRouteWithChildren,
   authLoginRoute: authLoginRoute,
   authRegisterRoute: authRegisterRoute,
   authUnauthorizedRoute: authUnauthorizedRoute,
