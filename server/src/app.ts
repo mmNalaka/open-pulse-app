@@ -1,5 +1,5 @@
 /** biome-ignore-all lint/nursery/useConsistentTypeDefinitions: false positive */
-import { Hono, type Schema } from "hono";
+import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { requestId } from "hono/request-id";
 import type { PinoLogger } from "hono-pino";
@@ -47,10 +47,6 @@ export function createApp() {
  * userRouter.get("/", (c) => c.text("Hello World"))
  * const app = createTestApp(userRouter);
  */
-export function createTestApp<S extends Schema>(router: Hono<AppBindings, S>) {
-  return new Hono<AppBindings, S>()
-    .use(requestId())
-    .use("/*", cors())
-    .use(pinoLogger())
-    .route("/", router);
+export function createTestApp(router: Hono<AppBindings>) {
+  return new Hono<AppBindings>().use(requestId()).use(cors()).use(pinoLogger()).route("/", router);
 }

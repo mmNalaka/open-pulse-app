@@ -17,10 +17,13 @@ const healthHandler = (c: Context<AppBindings>): Response => {
       responseTime: Date.now() - startTime,
     };
 
-    c.var.logger.info("Health check performed", {
-      status: healthCheck.status,
-      responseTime: healthCheck.responseTime,
-    });
+    c.var.logger.info(
+      {
+        status: healthCheck.status,
+        responseTime: healthCheck.responseTime,
+      },
+      "Health check performed"
+    );
 
     return c.json<ApiSuccessResponse>(
       {
@@ -31,7 +34,7 @@ const healthHandler = (c: Context<AppBindings>): Response => {
       HttpStatusCode.OK
     );
   } catch (error) {
-    c.var.logger.error("Health check failed", { error });
+    c.var.logger.error({ error }, "Health check failed");
 
     return c.json<ApiErrorResponse>(
       {
@@ -57,14 +60,17 @@ const readyHandler = (c: Context<AppBindings>): Response => {
       responseTime: Date.now() - startTime,
     };
 
-    c.var.logger.info("Readiness check performed", {
-      status: readinessCheck.status,
-      responseTime: readinessCheck.responseTime,
-    });
+    c.var.logger.info(
+      {
+        status: readinessCheck.status,
+        responseTime: readinessCheck.responseTime,
+      },
+      "Readiness check performed"
+    );
 
     return c.json(readinessCheck, 200);
   } catch (error) {
-    c.var.logger.error("Readiness check failed", { error });
+    c.var.logger.error({ error }, "Readiness check failed");
 
     return c.json(
       {
@@ -91,13 +97,16 @@ const metricsHandler = (c: Context<AppBindings>): Response => {
       responseTime: Date.now() - startTime,
     };
 
-    c.var.logger.info("Metrics retrieved", {
-      responseTime: metrics.responseTime,
-    });
+    c.var.logger.info(
+      {
+        responseTime: metrics.responseTime,
+      },
+      "Metrics retrieved"
+    );
 
     return c.json(metrics, 200);
   } catch (error) {
-    c.var.logger.error("Metrics retrieval failed", { error });
+    c.var.logger.error({ error }, "Metrics retrieval failed");
 
     return c.json(
       {
