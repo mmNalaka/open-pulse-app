@@ -11,11 +11,17 @@ import { Spinner } from "@/components/ui/spinner";
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
-type SignInFormProps = {
-  onSwitchToSignUp?: () => void;
+type SignUpFormProps = {
+  onSwitchToSignIn?: () => void;
+  disableNavigate?: boolean;
+  onSuccess?: () => void;
 };
 
-export default function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
+export default function SignUpForm({
+  onSwitchToSignIn,
+  disableNavigate,
+  onSuccess,
+}: SignUpFormProps) {
   const navigate = useNavigate({
     from: "/",
   });
@@ -25,19 +31,25 @@ export default function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
     onSubmit: async ({ value }) => {
-      await authClient.signIn.email(
+      await authClient.signUp.email(
         {
           email: value.email,
           password: value.password,
+          name: value.name,
         },
         {
           onSuccess: () => {
-            navigate({
-              to: "/",
-            });
-            toast.success("Sign in successful");
+            if (disableNavigate) {
+              onSuccess?.();
+            } else {
+              navigate({
+                to: "/",
+              });
+            }
+            toast.success("Sign up successful");
           },
           onError: (error) => {
             toast.error(error.error.message || error.error.statusText);
@@ -47,6 +59,7 @@ export default function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
     },
     validators: {
       onSubmit: z.object({
+        name: z.string().min(2, "Name must be at least 2 characters"),
         email: z.email("Invalid email address"),
         password: z.string().min(MIN_PASSWORD_LENGTH, "Password must be at least 8 characters"),
       }),
@@ -61,8 +74,8 @@ export default function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
     <div className={cn("mx-auto mt-10 flex w-full max-w-md flex-col gap-6 p-6")}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome back</CardTitle>
-          <CardDescription>Login with your Apple or Google account</CardDescription>
+          <CardTitle className="text-xl">Create your account</CardTitle>
+          <CardDescription>Sign up with your Apple or Google account</CardDescription>
         </CardHeader>
         <CardContent>
           <form
@@ -87,7 +100,7 @@ export default function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
                       fill="currentColor"
                     />
                   </svg>
-                  Login with Apple
+                  Continue with Apple
                 </Button>
                 <Button className="w-full" type="button" variant="outline">
                   <svg
@@ -102,7 +115,7 @@ export default function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
                       fill="currentColor"
                     />
                   </svg>
-                  Login with Google
+                  Continue with Google
                 </Button>
               </div>
 
@@ -113,6 +126,30 @@ export default function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
               </div>
 
               <div className="grid gap-6">
+                <div className="grid gap-3">
+                  <form.Field name="name">
+                    {(field) => (
+                      <div className="grid gap-2">
+                        <Label htmlFor={field.name}>Name</Label>
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          onBlur={field.handleBlur}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          placeholder="Jane Doe"
+                          required
+                          value={field.state.value}
+                        />
+                        {field.state.meta.errors.map((error) => (
+                          <p className="text-destructive text-sm" key={error?.message}>
+                            {error?.message}
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                  </form.Field>
+                </div>
+
                 <div className="grid gap-3">
                   <form.Field name="email">
                     {(field) => (
@@ -169,29 +206,21 @@ export default function SignInForm({ onSwitchToSignUp }: SignInFormProps) {
                       disabled={!state.canSubmit || state.isSubmitting}
                       type="submit"
                     >
-                      {state.isSubmitting ? "Submitting..." : "Login"}
+                      {state.isSubmitting ? "Submitting..." : "Sign Up"}
                     </Button>
                   )}
                 </form.Subscribe>
               </div>
 
               <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
+                Already have an account?{" "}
                 <Button
                   className="h-auto p-0"
-                  onClick={onSwitchToSignUp}
+                  onClick={onSwitchToSignIn}
                   type="button"
                   variant="link"
                 >
-                  Sign up
-                </Button>
-                <Button
-                  className="ml-auto p-0 text-sm underline-offset-4 hover:underline"
-                  onClick={() => navigate({ to: "/" })}
-                  type="button"
-                  variant="link"
-                >
-                  Forgot your password?
+                  Sign in
                 </Button>
               </div>
             </div>

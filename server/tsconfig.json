@@ -12,9 +12,9 @@
     "noEmit": false,
     "emitDecoratorMetadata": true,
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": false
+    "allowImportingTsExtensions": false,
+    "composite": true
   },
   "include": ["src/**/*"],
-  "composite": true,
   "exclude": ["node_modules", "dist"]
 }
