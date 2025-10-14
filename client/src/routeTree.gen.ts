@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as authUnauthorizedRouteImport } from './routes/(auth)/unauthorized'
 import { Route as authRegisterRouteImport } from './routes/(auth)/register'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as authAcceptInvitationRouteImport } from './routes/(auth)/accept-invitation'
 import { Route as OrgUsersRouteImport } from './routes/$org/users'
 import { Route as OrgDashboardRouteImport } from './routes/$org/dashboard'
 
@@ -42,6 +43,11 @@ const authLoginRoute = authLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authAcceptInvitationRoute = authAcceptInvitationRouteImport.update({
+  id: '/(auth)/accept-invitation',
+  path: '/accept-invitation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrgUsersRoute = OrgUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/$org': typeof OrgRouteWithChildren
   '/$org/dashboard': typeof OrgDashboardRoute
   '/$org/users': typeof OrgUsersRoute
+  '/accept-invitation': typeof authAcceptInvitationRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/unauthorized': typeof authUnauthorizedRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/$org': typeof OrgRouteWithChildren
   '/$org/dashboard': typeof OrgDashboardRoute
   '/$org/users': typeof OrgUsersRoute
+  '/accept-invitation': typeof authAcceptInvitationRoute
   '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/unauthorized': typeof authUnauthorizedRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/$org': typeof OrgRouteWithChildren
   '/$org/dashboard': typeof OrgDashboardRoute
   '/$org/users': typeof OrgUsersRoute
+  '/(auth)/accept-invitation': typeof authAcceptInvitationRoute
   '/(auth)/login': typeof authLoginRoute
   '/(auth)/register': typeof authRegisterRoute
   '/(auth)/unauthorized': typeof authUnauthorizedRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/$org'
     | '/$org/dashboard'
     | '/$org/users'
+    | '/accept-invitation'
     | '/login'
     | '/register'
     | '/unauthorized'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/$org'
     | '/$org/dashboard'
     | '/$org/users'
+    | '/accept-invitation'
     | '/login'
     | '/register'
     | '/unauthorized'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/$org'
     | '/$org/dashboard'
     | '/$org/users'
+    | '/(auth)/accept-invitation'
     | '/(auth)/login'
     | '/(auth)/register'
     | '/(auth)/unauthorized'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   OrgRoute: typeof OrgRouteWithChildren
+  authAcceptInvitationRoute: typeof authAcceptInvitationRoute
   authLoginRoute: typeof authLoginRoute
   authRegisterRoute: typeof authRegisterRoute
   authUnauthorizedRoute: typeof authUnauthorizedRoute
@@ -156,6 +169,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(auth)/accept-invitation': {
+      id: '/(auth)/accept-invitation'
+      path: '/accept-invitation'
+      fullPath: '/accept-invitation'
+      preLoaderRoute: typeof authAcceptInvitationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$org/users': {
       id: '/$org/users'
       path: '/users'
@@ -188,6 +208,7 @@ const OrgRouteWithChildren = OrgRoute._addFileChildren(OrgRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   OrgRoute: OrgRouteWithChildren,
+  authAcceptInvitationRoute: authAcceptInvitationRoute,
   authLoginRoute: authLoginRoute,
   authRegisterRoute: authRegisterRoute,
   authUnauthorizedRoute: authUnauthorizedRoute,
