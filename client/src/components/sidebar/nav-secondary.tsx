@@ -1,13 +1,12 @@
-import type { Icon } from '@tabler/icons-react';
-import { Link } from '@tanstack/react-router';
-import type * as React from 'react';
+import { Link } from "@tanstack/react-router";
+import type * as React from "react";
 import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar';
+} from "@/components/ui/sidebar";
 
 export function NavSecondary({
   items,
@@ -16,7 +15,7 @@ export function NavSecondary({
   items: {
     title: string;
     url: string;
-    icon: Icon;
+    icon: React.ComponentType<{ className?: string }>;
   }[];
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   return (
