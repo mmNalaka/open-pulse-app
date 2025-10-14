@@ -1,16 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { hcWithType } from "server/dist/client";
 import { Button } from "@/components/ui/button";
+import { client } from "@/lib/api-client";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
-
-const SERVER_URL = import.meta.env.VITE_SERVER_URL || "http://localhost:3000";
-
-const client = hcWithType(`${SERVER_URL}`);
 
 type ResponseType = Awaited<ReturnType<typeof client.health.health.$get>>;
 
