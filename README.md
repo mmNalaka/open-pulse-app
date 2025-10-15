@@ -1,4 +1,4 @@
-# bun-hono-react-saas-starter
+# open-pulse
 
 A modern full-stack SaaS starter template built with Bun, Hono, React, and TypeScript. Features authentication, database integration, and a complete user management system with organizations.
 
@@ -75,8 +75,8 @@ A modern full-stack SaaS starter template built with Bun, Hono, React, and TypeS
 
 ```bash
 # Clone the repository
-git clone https://github.com/nalakamanathunga/bun-hono-react-saas-starter.git
-cd bun-hono-react-saas-starter
+git clone https://github.com/nalakamanathunga/open-pulse.git
+cd open-pulse
 
 # Install dependencies for all workspaces
 bun install
@@ -245,7 +245,7 @@ Use a PostgreSQL hosting service:
 
 ## Project Renaming
 
-This template includes a convenient script to rename all occurrences of `bun-hono-react-saas-starter` to your desired project name:
+This template includes a convenient script to rename all occurrences of `open-pulse` to your desired project name:
 
 ```bash
 # Make the script executable (first time only)

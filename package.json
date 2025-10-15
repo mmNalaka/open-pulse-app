@@ -1,10 +1,10 @@
 {
-  "name": "bun-hono-react-saas-starter",
+  "name": "open-pulse",
   "version": "0.4.0",
   "description": "A monorepo template built with Bun, Hono, Vite, and React",
   "author": "Nalaka Manathunga",
   "license": "MIT",
-  "homepage": "https://github.com/nalakamanathunga/bun-hono-react-saas-starter",
+  "homepage": "https://github.com/nalakamanathunga/open-pulse",
   "packageManager": "bun@1.2.4",
   "workspaces": [
     "./server",
