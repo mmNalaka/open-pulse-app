@@ -243,6 +243,28 @@ Use a PostgreSQL hosting service:
 - [Railway Postgres](https://railway.app)
 - [AWS RDS](https://aws.amazon.com/rds)
 
+## Project Renaming
+
+This template includes a convenient script to rename all occurrences of `bun-hono-react-saas-starter` to your desired project name:
+
+```bash
+# Make the script executable (first time only)
+chmod +x scripts/rename-project.sh
+
+# Run the rename script with your new project name
+./scripts/rename-project.sh your-new-project-name
+```
+
+The script will:
+
+- Update the project name in `package.json`
+- Update the homepage URL in `package.json`
+- Update the title in `README.md`
+- Update the project name in `docker-compose.yml`
+- Search for and update any other files containing the old name
+
+**Note:** The script creates backup files (`.bak`) for all modified files. Review the changes and remove the backup files if everything looks good.
+
 ## Contributing
 
 1. Fork the repository
