@@ -47,7 +47,7 @@ function RouteComponent() {
       // Better Auth expects invitationId
       return await authClient.organization.acceptInvitation({ invitationId: t });
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       // Invalidate likely-affected caches to refresh UI
       await Promise.allSettled([
         queryClient.invalidateQueries({ queryKey: ["invitations"] }),
@@ -58,7 +58,10 @@ function RouteComponent() {
       ]);
 
       toast.success("Invitation accepted. Welcome to the organization!");
-      const to = redirect || "/dashboard";
+
+      const organizationId = data?.data?.member?.organizationId;
+      const to = redirect || `/${organizationId}/dashboard`;
+
       // Start a short countdown before redirecting
       setRedirectCountdown(COUNTDOWN_SECONDS);
       timerRef.current = window.setInterval(() => {
