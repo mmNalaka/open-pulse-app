@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { HeroMinimal } from "@/components/site/hero-minimal";
+import { HeroSection } from "@/components/site/hero-section";
 import { Pricing } from "@/components/site/pricing";
 
 export const Route = createFileRoute("/")({
@@ -8,8 +8,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="container mx-auto">
-      <HeroMinimal className="mt-16 bg-secondary-foreground py-32" />
+    <div className="w-full">
+      <HeroSection />
       <Pricing />
     </div>
   );

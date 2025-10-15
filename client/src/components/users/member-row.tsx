@@ -46,7 +46,7 @@ export function MemberRow({
       <TableCell>
         <div className="flex items-center space-x-3">
           <Avatar className="h-8 w-8">
-            <AvatarImage alt={member.user.name} src={member.user.image || undefined} />
+            <AvatarImage alt={member.user.name || "Member avatar"} src={member.user.image || undefined} />
             <AvatarFallback className="text-xs">
               {member.user.name.charAt(0).toUpperCase()}
             </AvatarFallback>
