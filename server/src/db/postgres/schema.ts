@@ -242,3 +242,29 @@ export const organizationUsage = pgTable(
     periodEndIdx: index("organization_usage_period_end_idx").on(table.periodEnd),
   })
 );
+
+export const site = pgTable(
+  "site",
+  {
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    domain: text("domain").notNull(),
+
+    metadata: text("metadata"),
+    createdAt: timestamp("created_at").notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+    organizationId: text("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    createdBy: text("created_by")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+  },
+  (table) => ({
+    nameIdx: index("site_name_idx").on(table.name),
+    organizationIdIdx: index("site_organization_id_idx").on(table.organizationId),
+  })
+);

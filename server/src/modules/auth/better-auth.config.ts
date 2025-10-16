@@ -8,8 +8,8 @@ import { apiKey, customSession, jwt, organization } from "better-auth/plugins";
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { NEW_USER_TIME_WINDOW } from "shared/dist/auth.const";
-import { db } from "../../db";
-import * as schema from "../../db/schema";
+import { db } from "../../db/postgres";
+import * as schema from "../../db/postgres/schema";
 
 /**
  * Database hook to set active organization when creating a session
