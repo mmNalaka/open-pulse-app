@@ -13,9 +13,14 @@
     "emitDecoratorMetadata": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": false,
-    "composite": true
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@tests/*": ["tests/*"]
+    }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "tests/**/*"],
   "exclude": ["node_modules", "dist"],
   "types": [
     "node",
