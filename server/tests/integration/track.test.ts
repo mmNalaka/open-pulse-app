@@ -83,4 +83,18 @@ describe("Integration: Track Endpoint", () => {
     expect((json as Record<string, unknown>).success).toBe(true);
     expect(((json as Record<string, unknown>).data as Record<string, unknown>)?.type).toBe("error");
   });
+
+  it("should reject if unknown payload type", async () => {
+    const res = await makeRequest(app, "/track", {
+      method: "POST",
+      body: {
+        type: "unknown",
+        site_id: "site_1",
+        event_name: "TypeError",
+        properties: JSON.stringify({ message: "boom", stack: "at line 1" }),
+      },
+    });
+
+    expect(res.status).toBe(400);
+  });
 });
