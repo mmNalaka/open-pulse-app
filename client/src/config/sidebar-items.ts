@@ -1,7 +1,6 @@
 import {
   AudioWaveform,
   Banknote,
-  Calendar,
   GalleryVerticalEnd,
   Gauge,
   Globe,
@@ -9,12 +8,10 @@ import {
   List,
   type LucideIcon,
   Mail,
-  Newspaper,
+  MouseIcon,
   ReceiptText,
-  ShoppingBag,
   Users,
-  Video,
-} from 'lucide-react';
+} from "lucide-react";
 
 export type NavSubItem = {
   title: string;
@@ -47,73 +44,61 @@ const sidebarItemsTemplate: NavGroup[] = [
     id: 1,
     items: [
       {
-        title: 'Home',
-        url: '/dashboard',
+        title: "Home",
+        url: "/dashboard",
         icon: HomeIcon,
       },
       {
-        title: 'Videos',
-        url: '/videos',
-        icon: Video,
+        title: "Events",
+        url: "/events",
+        icon: MouseIcon,
       },
       {
-        title: 'Products',
-        url: '/dashboard/crm',
-        icon: ShoppingBag,
+        title: "Visitors",
+        url: "/visitors",
+        icon: Users,
       },
       {
-        title: 'Sites',
-        url: '/dashboard/crm',
+        title: "Sites",
+        url: "/sites",
         icon: Globe,
       },
       {
-        title: 'Playlists',
-        url: '/dashboard/crm',
+        title: "Performance",
+        url: "/performance",
         icon: List,
       },
       {
-        title: 'Analytics',
-        url: '/dashboard/coming-soon',
+        title: "Analytics",
+        url: "/analytics",
         icon: Gauge,
       },
       {
-        title: 'Streams',
-        url: '/dashboard/finance',
+        title: "Errors",
+        url: "/errors",
         icon: Banknote,
-        comingSoon: true,
-      },
-      {
-        title: 'Social Media',
-        url: '/dashboard/coming-soon',
-        icon: Newspaper,
         comingSoon: true,
       },
     ],
   },
   {
     id: 2,
-    label: 'Account',
+    label: "Account",
     items: [
       {
-        title: 'Notifications',
-        url: '/dashboard/coming-soon',
+        title: "Notifications",
+        url: "/dashboard/coming-soon",
         icon: Mail,
         comingSoon: true,
       },
       {
-        title: 'Calendar',
-        url: '/dashboard/coming-soon',
-        icon: Calendar,
-        comingSoon: true,
-      },
-      {
-        title: 'Users',
-        url: '/users',
+        title: "Users",
+        url: "/users",
         icon: Users,
       },
       {
-        title: 'Billing',
-        url: '/dashboard/coming-soon',
+        title: "Billing",
+        url: "/dashboard/coming-soon",
         icon: ReceiptText,
         comingSoon: true,
       },
@@ -146,13 +131,13 @@ export const sidebarItems: NavGroup[] = sidebarItemsTemplate;
 // This is sample data.
 export const teamItems = [
   {
-    name: 'Acme Inc',
+    name: "Acme Inc",
     logo: GalleryVerticalEnd,
-    plan: 'Enterprise',
+    plan: "Enterprise",
   },
   {
-    name: 'Acme Corp.',
+    name: "Acme Corp.",
     logo: AudioWaveform,
-    plan: 'Startup',
+    plan: "Startup",
   },
 ];
