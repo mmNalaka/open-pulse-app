@@ -16,6 +16,7 @@ import { Route as authRegisterRouteImport } from './routes/(auth)/register'
 import { Route as authLoginRouteImport } from './routes/(auth)/login'
 import { Route as authAcceptInvitationRouteImport } from './routes/(auth)/accept-invitation'
 import { Route as OrgUsersRouteImport } from './routes/$org/users'
+import { Route as OrgSitesRouteImport } from './routes/$org/sites'
 import { Route as OrgDashboardRouteImport } from './routes/$org/dashboard'
 
 const OrgRoute = OrgRouteImport.update({
@@ -53,6 +54,11 @@ const OrgUsersRoute = OrgUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => OrgRoute,
 } as any)
+const OrgSitesRoute = OrgSitesRouteImport.update({
+  id: '/sites',
+  path: '/sites',
+  getParentRoute: () => OrgRoute,
+} as any)
 const OrgDashboardRoute = OrgDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$org': typeof OrgRouteWithChildren
   '/$org/dashboard': typeof OrgDashboardRoute
+  '/$org/sites': typeof OrgSitesRoute
   '/$org/users': typeof OrgUsersRoute
   '/accept-invitation': typeof authAcceptInvitationRoute
   '/login': typeof authLoginRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$org': typeof OrgRouteWithChildren
   '/$org/dashboard': typeof OrgDashboardRoute
+  '/$org/sites': typeof OrgSitesRoute
   '/$org/users': typeof OrgUsersRoute
   '/accept-invitation': typeof authAcceptInvitationRoute
   '/login': typeof authLoginRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$org': typeof OrgRouteWithChildren
   '/$org/dashboard': typeof OrgDashboardRoute
+  '/$org/sites': typeof OrgSitesRoute
   '/$org/users': typeof OrgUsersRoute
   '/(auth)/accept-invitation': typeof authAcceptInvitationRoute
   '/(auth)/login': typeof authLoginRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$org'
     | '/$org/dashboard'
+    | '/$org/sites'
     | '/$org/users'
     | '/accept-invitation'
     | '/login'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$org'
     | '/$org/dashboard'
+    | '/$org/sites'
     | '/$org/users'
     | '/accept-invitation'
     | '/login'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$org'
     | '/$org/dashboard'
+    | '/$org/sites'
     | '/$org/users'
     | '/(auth)/accept-invitation'
     | '/(auth)/login'
@@ -183,6 +195,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OrgUsersRouteImport
       parentRoute: typeof OrgRoute
     }
+    '/$org/sites': {
+      id: '/$org/sites'
+      path: '/sites'
+      fullPath: '/$org/sites'
+      preLoaderRoute: typeof OrgSitesRouteImport
+      parentRoute: typeof OrgRoute
+    }
     '/$org/dashboard': {
       id: '/$org/dashboard'
       path: '/dashboard'
@@ -195,11 +214,13 @@ declare module '@tanstack/react-router' {
 
 interface OrgRouteChildren {
   OrgDashboardRoute: typeof OrgDashboardRoute
+  OrgSitesRoute: typeof OrgSitesRoute
   OrgUsersRoute: typeof OrgUsersRoute
 }
 
 const OrgRouteChildren: OrgRouteChildren = {
   OrgDashboardRoute: OrgDashboardRoute,
+  OrgSitesRoute: OrgSitesRoute,
   OrgUsersRoute: OrgUsersRoute,
 }
 
