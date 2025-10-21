@@ -59,11 +59,6 @@ const sidebarItemsTemplate: NavGroup[] = [
         icon: Users,
       },
       {
-        title: "Sites",
-        url: "/sites",
-        icon: Globe,
-      },
-      {
         title: "Performance",
         url: "/performance",
         icon: List,
@@ -85,6 +80,11 @@ const sidebarItemsTemplate: NavGroup[] = [
     id: 2,
     label: "Account",
     items: [
+      {
+        title: "Sites",
+        url: "/sites",
+        icon: Globe,
+      },
       {
         title: "Notifications",
         url: "/dashboard/coming-soon",

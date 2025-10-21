@@ -8,11 +8,15 @@ import { CorsConfig } from "./config/app.config";
 import notFound from "./middlewares/not-found.mw";
 import onError from "./middlewares/on-error.mw";
 import authRouter from "./modules/auth/auth.router";
+import type { auth } from "./modules/auth/better-auth.config";
 import healthRouter from "./modules/health/health.routes";
+import siteRouter from "./modules/sites/site.routers";
 
 export interface AppBindings {
   Variables: {
     logger: PinoLogger;
+    user: typeof auth.$Infer.Session.user | null;
+    session: typeof auth.$Infer.Session.session | null;
   };
 }
 /**
@@ -30,7 +34,8 @@ export function createApp() {
 
     // Routes
     .route("/api/health", healthRouter)
-    .route("/api/auth", authRouter);
+    .route("/api/auth", authRouter)
+    .route("/api/sites", siteRouter);
 
   // Error handlers
   app.notFound(notFound);

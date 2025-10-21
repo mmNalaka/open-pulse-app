@@ -15,6 +15,13 @@
       "when": 1760602421040,
       "tag": "0001_add-initial-site-schema",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1760876562160,
+      "tag": "0002_update-site-schema",
+      "breakpoints": true
     }
   ]
 }

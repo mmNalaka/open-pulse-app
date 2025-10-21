@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CreateSiteDialog } from "@/components/sites/create-site-dialog";
-import { authClient } from "@/lib/auth-client";
+import { CreateSiteDialog } from "@/modules/sites/components/create-site-dialog";
+import { DataTable as SitesTable } from "@/modules/sites/components/sites-table";
+import { useListSitesQuery } from "@/modules/sites/hooks/use-list-sites-query";
 
 export const Route = createFileRoute("/$org/sites")({
   component: RouteComponent,
@@ -8,20 +9,10 @@ export const Route = createFileRoute("/$org/sites")({
 
 function RouteComponent() {
   const { org } = Route.useParams();
-  const { data: session } = authClient.useSession();
-  const {
-    data: organization,
-    isPending: orgLoading,
-    error: orgError,
-  } = authClient.useActiveOrganization();
-
-  // Get current user's role for permissions
-  // For now, let's show the button to all authenticated users for testing
-  // TODO: Implement proper role-based permissions once we understand the session structure
-  const canManageMembers = !!session?.user;
+  const { data: sitesData, isLoading, error } = useListSitesQuery();
 
   // Handle loading and error states
-  if (orgLoading) {
+  if (isLoading) {
     return (
       <div className="p-4">
         <p className="text-muted-foreground">Loading organization...</p>
@@ -29,15 +20,15 @@ function RouteComponent() {
     );
   }
 
-  if (orgError) {
+  if (error) {
     return (
       <div className="p-4">
-        <p className="text-destructive">Error loading organization: {orgError.message}</p>
+        <p className="text-destructive">Error loading organization: {error.message}</p>
       </div>
     );
   }
 
-  if (!organization) {
+  if (!sitesData) {
     return (
       <div className="p-4">
         <p className="text-muted-foreground">
@@ -52,12 +43,16 @@ function RouteComponent() {
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="font-semibold text-2xl">Sites</h1>
-          <p className="text-muted-foreground">Manage sites for {organization.name}</p>
+          <p className="text-muted-foreground">
+            Manage sites under your organization, all the analytics will be grouped under each site
+          </p>
         </div>
-        {canManageMembers && <CreateSiteDialog canCreateSite={canManageMembers} />}
+        <CreateSiteDialog canCreateSite={true} />
       </div>
 
-      <div className="w-full">Sites</div>
+      <div className="w-full">
+        <SitesTable data={sitesData} />
+      </div>
     </>
   );
 }

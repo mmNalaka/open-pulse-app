@@ -251,7 +251,7 @@ export const site = pgTable(
     domain: text("domain").notNull(),
 
     metadata: text("metadata"),
-    createdAt: timestamp("created_at").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .defaultNow()
       .$onUpdate(() => new Date())

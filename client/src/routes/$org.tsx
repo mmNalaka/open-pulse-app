@@ -56,7 +56,7 @@ function OrganizationLayout() {
         <Sidebar variant="inset" />
         <SidebarInset>
           <SiteHeader />
-          <div className="h-full items-center justify-center p-4">
+          <div className="h-full w-full items-center justify-center p-4">
             <Spinner />
           </div>
         </SidebarInset>

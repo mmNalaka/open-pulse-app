@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import SignInForm from "@/components/auth/sign-in-form";
+import { Spinner } from "@/components/ui/spinner";
 import { authClient } from "@/lib/auth-client";
 
 export const Route = createFileRoute("/(auth)/login")({
@@ -80,6 +81,14 @@ function RouteComponent() {
       navigate({ to: redirectTo, replace: true });
     }
   }, [session, isPending, orgPending, navigate, redirectTo]);
+
+  if (isPending || orgPending || session) {
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
 
   return <SignInForm />;
 }

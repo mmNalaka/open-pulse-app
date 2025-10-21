@@ -44,18 +44,14 @@ type ErrorResponseOptions = {
  * });
  * ```
  */
-export const successResponse = (
-  c: Context,
-  data: unknown,
-  options: SuccessResponseOptions = {}
-) => {
+export const successResponse = <T>(c: Context, data: T, options: SuccessResponseOptions = {}) => {
   const { message = HttpStatusCodeMessage.OK, statusCode = HttpStatusCode.OK } = options;
 
   const m =
     message in HttpStatusCodeMessage
       ? HttpStatusCodeMessage[message as keyof typeof HttpStatusCodeMessage]
       : message;
-  return c.json<ApiSuccessResponse>(
+  return c.json<ApiSuccessResponse<T>>(
     {
       success: true,
       message: m,

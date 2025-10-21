@@ -46,7 +46,10 @@ export function MemberRow({
       <TableCell>
         <div className="flex items-center space-x-3">
           <Avatar className="h-8 w-8">
-            <AvatarImage alt={member.user.name || "Member avatar"} src={member.user.image || undefined} />
+            <AvatarImage
+              alt={member.user.name || "Member avatar"}
+              src={member.user.image || undefined}
+            />
             <AvatarFallback className="text-xs">
               {member.user.name.charAt(0).toUpperCase()}
             </AvatarFallback>
@@ -54,9 +57,7 @@ export function MemberRow({
           <div>
             <div className="font-medium">
               {member.user.name}
-              {isCurrentUser && (
-                <span className="ml-2 text-muted-foreground text-xs">(You)</span>
-              )}
+              {isCurrentUser && <span className="ml-2 text-muted-foreground text-xs">(You)</span>}
             </div>
             <div className="text-muted-foreground text-sm">{member.user.email}</div>
           </div>
@@ -78,15 +79,15 @@ export function MemberRow({
       {canManageMembers && (
         <TableCell>
           <MemberActions
-            member={member}
+            canManageMembers={canManageMembers}
+            disabled={disabled}
             isCurrentUser={isCurrentUser}
             isLastOwner={isLastOwner}
             isOwner={isOwner}
-            canManageMembers={canManageMembers}
-            onRoleChange={onRoleChange}
+            member={member}
             onRemoveMember={onRemoveMember}
+            onRoleChange={onRoleChange}
             onStatusToggle={onStatusToggle}
-            disabled={disabled}
           />
         </TableCell>
       )}

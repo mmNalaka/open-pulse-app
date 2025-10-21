@@ -1,7 +1,7 @@
 // Core API Response Types - Production-ready response interfaces
 
 // Generic success response
-export type ApiSuccessResponse<T = unknown> = {
+export type ApiSuccessResponse<T> = {
   success: true;
   message: string;
   data: T;
@@ -31,7 +31,7 @@ export type PaginationInfo = {
 };
 
 // Paginated success response
-export type PaginatedApiResponse<T = unknown> = {
+export type PaginatedApiResponse<T> = {
   success: true;
   message: string;
   data: T[];
@@ -39,7 +39,4 @@ export type PaginatedApiResponse<T = unknown> = {
 };
 
 // Union type for all possible API responses
-export type ApiResponse<T = unknown> =
-  | ApiSuccessResponse<T>
-  | ApiErrorResponse
-  | PaginatedApiResponse<T>;
+export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse | PaginatedApiResponse<T>;
