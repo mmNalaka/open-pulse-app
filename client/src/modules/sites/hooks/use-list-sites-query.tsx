@@ -17,7 +17,6 @@ const fetchSites = async (): Promise<SitesData> => {
 
   if (!data.success) {
     const error = new Error(data.message) as Error & { code?: string };
-    error.code = data.errorCode;
     throw error;
   }
 
