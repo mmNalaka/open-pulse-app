@@ -5,7 +5,7 @@ import {
   HttpStatusCodeMessage,
   HttpStatusCodeMessageMapping,
 } from "shared/dist/http-status-messages";
-import type { ApiErrorResponse, ApiSuccessResponse } from "shared/dist/types/response.types";
+import type { ApiErrorResponse, ApiSuccessResponse, PaginatedApiResponse, PaginationInfo } from "shared/dist/types/response.types";
 
 type SuccessResponseOptions = {
   message?: keyof typeof HttpStatusCodeMessage | string;
@@ -56,6 +56,49 @@ export const successResponse = <T>(c: Context, data: T, options: SuccessResponse
       success: true,
       message: m,
       data,
+    },
+    statusCode
+  );
+};
+
+/**
+ * Sends a standardized paginated success response.
+ *
+ * @param c - The Hono context object
+ * @param data - The array of response payload data
+ * @param pagination - Pagination metadata
+ * @param options - Optional configuration
+ * @param options.message - Custom message or HttpStatusCodeMessage key (defaults to OK)
+ * @param options.statusCode - HTTP status code (defaults to 200 OK)
+ * @returns JSON response with success flag, message, data array, and pagination info
+ *
+ * @example
+ * ```ts
+ * const items = await getItems(page, limit);
+ * const total = await getTotalItems();
+ * const pagination = calculatePagination(page, limit, total);
+ * return paginatedSuccessResponse(c, items, pagination);
+ * ```
+ */
+export const paginatedSuccessResponse = <T>(
+  c: Context,
+  data: T[],
+  pagination: PaginationInfo,
+  options: SuccessResponseOptions = {}
+) => {
+  const { message = HttpStatusCodeMessage.OK, statusCode = HttpStatusCode.OK } = options;
+
+  const m =
+    message in HttpStatusCodeMessage
+      ? HttpStatusCodeMessage[message as keyof typeof HttpStatusCodeMessage]
+      : message;
+
+  return c.json<PaginatedApiResponse<T>>(
+    {
+      success: true,
+      message: m,
+      data,
+      pagination,
     },
     statusCode
   );

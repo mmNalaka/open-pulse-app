@@ -25,7 +25,7 @@ const healthHandler = (c: Context<AppBindings>): Response => {
       "Health check performed"
     );
 
-    return c.json<ApiSuccessResponse>(
+    return c.json<ApiSuccessResponse<typeof healthCheck>>(
       {
         success: true,
         message: HttpStatusCodeMessage.OK,

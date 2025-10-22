@@ -1,9 +1,12 @@
 import { Hono } from "hono";
 import { requireAuth } from "@/middlewares/auth.mw";
-import { createSiteHandler, listSitesHandler } from "./site.handlers";
+import * as handlers from "./site.handlers";
 
 const siteRouter = new Hono()
-  .post("/", requireAuth, ...createSiteHandler)
-  .get("/", requireAuth, ...listSitesHandler);
+  .post("/", requireAuth, ...handlers.createSiteHandler)
+  .get("/", requireAuth, ...handlers.listSitesHandler)
+  .get("/:id", requireAuth, ...handlers.getSiteHandler)
+  .patch("/:id", requireAuth, ...handlers.updateSiteHandler)
+  .delete("/:id", requireAuth, ...handlers.deleteSiteHandler);
 
 export default siteRouter;
