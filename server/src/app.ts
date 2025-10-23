@@ -4,6 +4,7 @@ import { cors } from "hono/cors";
 import { requestId } from "hono/request-id";
 import type { PinoLogger } from "hono-pino";
 import { pinoLogger } from "hono-pino";
+import { readFileSync } from "node:fs";
 import { CorsConfig } from "./config/app.config";
 import notFound from "./middlewares/not-found.mw";
 import onError from "./middlewares/on-error.mw";
@@ -31,6 +32,9 @@ export function createApp() {
     .use(requestId())
     .use(cors(CorsConfig))
     .use(pinoLogger())
+
+    // tracking script
+    .get("/analytics.js", (c) => c.text(readFileSync("src/analytics-script/analytics.js", "utf8"), 200, { "Content-Type": "application/javascript" }))
 
     // Routes
     .route("/api/health", healthRouter)

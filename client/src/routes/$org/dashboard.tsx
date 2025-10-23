@@ -10,8 +10,6 @@ function DashboardRoute() {
   const { data: session, isPending } = authClient.useSession();
   const { data: activeOrganization } = authClient.useActiveOrganization();
 
-  console.log("activeOrganization", activeOrganization, session);
-
   if (isPending) {
     return <div className="p-4">Loading...</div>;
   }

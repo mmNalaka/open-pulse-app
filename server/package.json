@@ -4,7 +4,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "bun run build:analytics && tsc",
+    "build:analytics": "bun build src/analytics-script/index.ts --outfile src/analytics-script/analytics.js --minify",
     "dev": "bun --watch run src/index.ts | pino-pretty && tsc --watch",
     "test": "vitest",
     "test:watch": "vitest --watch",
