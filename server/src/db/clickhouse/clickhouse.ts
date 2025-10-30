@@ -8,11 +8,12 @@ export const clickhouse = createClient({
 });
 
 export const setupClickhouse = async () => {
-  // Setup Clickhouse schema
-  await clickhouse.exec({
-    query: `
+  try {
+    // Setup Clickhouse schema
+    await clickhouse.exec({
+      query: `
       CREATE TABLE IF NOT EXISTS analytics_event (
-        timestamp DateTime64(3) CODEC(DoubleDelta, ZSTD(1)) DEFAULT now(),
+        timestamp DateTime64(3) DEFAULT now() CODEC(DoubleDelta, ZSTD(1)),
         site_id String,
         session_id String,
         user_id String,
@@ -35,7 +36,13 @@ export const setupClickhouse = async () => {
         city String,
         lat Float64,
         lon Float64,
-        ip String,
+        lcp Nullable(Float64),
+        cls Nullable(Float64),
+        inp Nullable(Float64),
+        fcp Nullable(Float64),
+        ttfb Nullable(Float64),
+        ip Nullable(String),
+        timezone LowCardinality(String) DEFAULT '',
         screen_width UInt16,
         screen_height UInt16,
         device_type LowCardinality(String),
@@ -43,8 +50,12 @@ export const setupClickhouse = async () => {
         event_name String,
         props JSON
       ) ENGINE = MergeTree()
-       PARTITION BY toYYYYMM(timestamp)
+      PARTITION BY toYYYYMM(timestamp)
       ORDER BY (site_id, timestamp)
     `,
-  });
+    });
+  } catch (error) {
+    console.error("Failed to setup Clickhouse", error);
+    throw error;
+  }
 };

@@ -29,6 +29,9 @@ services:
       - CLICKHOUSE_DB=${CLICKHOUSE_DB:-analytics}
       - CLICKHOUSE_USER=${CLICKHOUSE_USER:-default}
       - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD:-frog}
+    ports:
+      - "8123:8123"
+      - "9000:9000"
     healthcheck:
       test:
         [

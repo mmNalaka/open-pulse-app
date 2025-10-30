@@ -1,10 +1,10 @@
 /** biome-ignore-all lint/nursery/useConsistentTypeDefinitions: false positive */
+
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { requestId } from "hono/request-id";
 import type { PinoLogger } from "hono-pino";
 import { pinoLogger } from "hono-pino";
-import { readFileSync } from "node:fs";
 import { CorsConfig } from "./config/app.config";
 import notFound from "./middlewares/not-found.mw";
 import onError from "./middlewares/on-error.mw";
@@ -12,6 +12,8 @@ import authRouter from "./modules/auth/auth.router";
 import type { auth } from "./modules/auth/better-auth.config";
 import healthRouter from "./modules/health/health.routes";
 import siteRouter from "./modules/sites/site.routers";
+import { analyticsScriptHandler } from "./modules/track/script.handlers";
+import { trackEventHandler } from "./modules/track/track.handlers";
 
 export interface AppBindings {
   Variables: {
@@ -20,6 +22,7 @@ export interface AppBindings {
     session: typeof auth.$Infer.Session.session | null;
   };
 }
+
 /**
  * Create a new app
  *
@@ -27,14 +30,14 @@ export interface AppBindings {
  */
 export function createApp() {
   const app = new Hono<AppBindings>()
-
     // Middlewares
     .use(requestId())
     .use(cors(CorsConfig))
     .use(pinoLogger())
 
     // tracking script
-    .get("/analytics.js", (c) => c.text(readFileSync("src/analytics-script/analytics.js", "utf8"), 200, { "Content-Type": "application/javascript" }))
+    .get("/analytics.js", ...analyticsScriptHandler)
+    .post("/track", ...trackEventHandler)
 
     // Routes
     .route("/api/health", healthRouter)

@@ -1,9 +1,12 @@
+import { Hono } from "hono";
 import { describe, expect, it } from "vitest";
-import trackRouter from "@/modules/track/track.routers";
+import type { AppBindings } from "@/app";
+import { trackEventHandler } from "@/modules/track/track.handlers";
 import { createUnitTestApp, makeRequest, parseJsonResponse } from "../utils/test-app";
 
 describe("Integration: Track Endpoint", () => {
-  const app = createUnitTestApp(trackRouter);
+  const router = new Hono<AppBindings>().post("/track", ...trackEventHandler);
+  const app = createUnitTestApp(router);
 
   it("should accept a minimal valid pageview payload", async () => {
     const res = await makeRequest(app, "/track", {
