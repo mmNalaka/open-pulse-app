@@ -70,6 +70,12 @@ const columns: ColumnDef<SitesData[0]>[] = [
     ),
   },
   {
+    accessorKey: "id",
+    header: "Site ID",
+    enableHiding: false,
+    cell: ({ row }) => row.original.id,
+  },
+  {
     accessorKey: "createdAt",
     header: "Created",
     cell: ({ row }) => (
@@ -167,6 +173,7 @@ export function DataTable({ data: initialData }: { data: SitesData }) {
               <TableRow>
                 <TableHead> Name </TableHead>
                 <TableHead> Domain </TableHead>
+                <TableHead> Site ID </TableHead>
                 <TableHead> Created </TableHead>
                 <TableHead> Updated </TableHead>
                 <TableHead className="w-[70px]"> Actions </TableHead>
