@@ -268,3 +268,48 @@ export const site = pgTable(
     organizationIdIdx: index("site_organization_id_idx").on(table.organizationId),
   })
 );
+
+/**
+ * Active Sessions Table
+ * Tracks real-time user sessions for analytics (server-generated session IDs)
+ * This is NOT for application user sessions (see 'session' table)
+ * Used for session lifecycle management and timeout detection
+ */
+export const activeSessions = pgTable(
+  "active_sessions",
+  {
+    // id serves as the session_id (server-generated UUID with "sess_" prefix)
+    id: text("id").primaryKey(),
+    siteId: text("site_id")
+      .notNull()
+      .references(() => site.id, { onDelete: "cascade" }),
+    userId: text("user_id"),
+
+    // Session timing
+    startTime: timestamp("start_time").defaultNow().notNull(),
+    lastActivity: timestamp("last_activity").defaultNow().notNull(),
+
+    // Session metadata
+    ipAddress: text("ip_address"),
+    userAgent: text("user_agent"),
+
+    // Session status
+    isActive: boolean("is_active").default(true).notNull(),
+
+    // Timestamps
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => ({
+    siteIdIdx: index("active_sessions_site_id_idx").on(table.siteId),
+    lastActivityIdx: index("active_sessions_last_activity_idx").on(table.lastActivity),
+    isActiveIdx: index("active_sessions_is_active_idx").on(table.isActive),
+    siteIdIsActiveIdx: index("active_sessions_site_id_is_active_idx").on(
+      table.siteId,
+      table.isActive
+    ),
+  })
+);

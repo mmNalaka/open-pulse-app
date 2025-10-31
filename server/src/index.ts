@@ -1,5 +1,6 @@
 import { createApp } from "./app";
 import { setupClickhouse } from "./db/clickhouse/clickhouse";
+import { eventQueue } from "./services/event-queue.service";
 
 /**
  * Initialize application dependencies
@@ -10,7 +11,10 @@ const initializeDependencies = async (): Promise<void> => {
   console.log("[STARTUP] Initializing dependencies...");
 
   try {
+    // Dependencies
     await setupClickhouse();
+    eventQueue.start();
+
     const duration = Date.now() - startTime;
     console.log(`[STARTUP] ✓ Dependencies initialized successfully (${duration}ms)`);
   } catch (error) {

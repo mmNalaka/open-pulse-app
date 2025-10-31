@@ -1,10 +1,44 @@
 import { Hono } from "hono";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { AppBindings } from "@/app";
 import { trackEventHandler } from "@/modules/track/track.handlers";
 import { createUnitTestApp, makeRequest, parseJsonResponse } from "../utils/test-app";
 
+// Mock the dependencies
+vi.mock("@/repositories/site.repo", () => ({
+  getSiteConfig: vi.fn(async () => ({
+    id: "site_1",
+    name: "Test Site",
+    domain: "example.com",
+  })),
+}));
+
+vi.mock("@/services/session.service", () => ({
+  createOrUpdateSession: vi.fn(async () => ({
+    id: "se_test_session_123",
+    siteId: "site_1",
+    userId: null,
+    startTime: new Date(),
+    lastActivity: new Date(),
+    isActive: true,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  })),
+}));
+
+vi.mock("@/services/event-queue.service", () => ({
+  eventQueue: {
+    add: vi.fn(async () => {
+      // Mock implementation - do nothing
+    }),
+  },
+}));
+
 describe("Integration: Track Endpoint", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   const router = new Hono<AppBindings>().post("/track", ...trackEventHandler);
   const app = createUnitTestApp(router);
 

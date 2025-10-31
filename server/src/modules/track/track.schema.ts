@@ -3,6 +3,7 @@ import { z } from "zod";
 export const pageViewSchema = z.object({
   type: z.literal("pageview"),
   site_id: z.string().min(1),
+  session_id: z.string().min(1).optional(),
   hostname: z.string().max(253).optional(),
   pathname: z.string().max(2048).optional(),
   querystring: z.string().max(2048).optional(),
@@ -22,6 +23,7 @@ export const pageViewSchema = z.object({
 export const customEventSchema = z.object({
   type: z.literal("custom_event"),
   site_id: z.string().min(1),
+  session_id: z.string().min(1).optional(),
   hostname: z.string().max(253).optional(),
   pathname: z.string().max(2048).optional(),
   querystring: z.string().max(2048).optional(),
@@ -55,6 +57,7 @@ export const customEventSchema = z.object({
 export const errorSchema = z.object({
   type: z.literal("error"),
   site_id: z.string().min(1),
+  session_id: z.string().min(1).optional(),
   hostname: z.string().max(253).optional(),
   pathname: z.string().max(2048).optional(),
   querystring: z.string().max(2048).optional(),
@@ -111,3 +114,5 @@ export const trackingPayloadSchema = z.discriminatedUnion("type", [
   customEventSchema.strict(),
   errorSchema.strict(),
 ]);
+
+export type TrackingPayload = z.infer<typeof trackingPayloadSchema>;

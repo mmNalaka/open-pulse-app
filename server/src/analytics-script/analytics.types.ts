@@ -4,3 +4,10 @@ export type OpenPulseAnalytics = {
   error: (event: string, properties?: Record<string, unknown>) => void;
   pageView: (event: string, properties?: Record<string, unknown>) => void;
 };
+
+export type TrackingConfig = {
+  disabled: boolean;
+  siteId: string;
+  debug: boolean;
+  analyticsHost: string;
+};

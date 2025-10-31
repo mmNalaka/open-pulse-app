@@ -1,7 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import { createFactory } from "hono/factory";
 import type { AppBindings } from "@/app";
-import { SiteRepository } from "@/repositories/site.repos";
+import { SiteRepository } from "@/repositories/site.repo";
 import { NotFoundError, UnauthorizedError } from "@/utils/app-error";
 import { paginatedSuccessResponse, successResponse } from "@/utils/http.utils";
 import { calculatePagination } from "@/utils/pagination.utils";
