@@ -116,3 +116,4 @@ export const trackingPayloadSchema = z.discriminatedUnion("type", [
 ]);
 
 export type TrackingPayload = z.infer<typeof trackingPayloadSchema>;
+export type EventType = z.infer<typeof trackingPayloadSchema>['type'];
